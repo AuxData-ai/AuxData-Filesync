@@ -1,4 +1,4 @@
-# AuxData Filesynchronisation tool with KnowledgeDB
+# AuxData Filesynchronisation tool to AuxData.ai Platform Knowledge Database
 
 This tool synchronises local filesystems oder sharepoint Servers with the AuxData.ai Knowledge DB. This tool is intended for admin use. You should be familiar with your filesystem, Microsoft Sharepoint sites and the AuxData.ai platform. If not contact support@auxdata.ai and we will help you with the configuration.
 The database is empty and can be filled with data.
