@@ -8,11 +8,11 @@ The database is empty and can be filled with data.
 There are 2 different possibilities to start the app.
 
 ## Execution syncrhonisation
-Command: '''filesync.exe''' 
+Command: ```filesync.exe```
 
 loads the configuration from the file database and executes the sync process
 
 ## Open the Configuration editor
-Command: '''filesync.exe -service'''
+Command: ```filesync.exe -service```
 
 starts the rest Backend and opens the browser on port 9180 to edit the configurations.
