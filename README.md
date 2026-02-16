@@ -16,3 +16,8 @@ loads the configuration from the file database and executes the sync process
 Command: ```filesync.exe -service```
 
 starts the rest Backend and opens the browser on port 9180 to edit the configurations.
+
+
+## Compatibility
+
+The application was written in go. On this site we offer only a windows executable at the moment. But if you need it for any other os just write a email to support@auxdata.ai
