@@ -15,6 +15,7 @@
             <button class="nav-btn" data-view="sharepoint">SharePoint</button>
             <button class="nav-btn" data-view="protocols">Protocols</button>
             <button class="nav-btn" data-view="sync">Sync</button>
+            <button class="nav-btn" data-view="logs">Logs</button>
         </div>
     </nav>
 
@@ -83,6 +84,58 @@
             <h2>Synchronization</h2>
             <button id="execute-sync-btn" class="btn-primary btn-large">Execute Sync</button>
             <div id="sync-status" class="status-message"></div>
+        </section>
+
+        <!-- Logs View -->
+        <section id="logs-view" class="view">
+            <h2>Logs</h2>
+            <div class="filter-bar logs-filter-bar">
+                <div class="filter-group">
+                    <label>From:</label>
+                    <input type="datetime-local" id="logs-from">
+                </div>
+                <div class="filter-group">
+                    <label>To:</label>
+                    <input type="datetime-local" id="logs-to">
+                </div>
+                <div class="filter-group">
+                    <label>Search:</label>
+                    <input type="text" id="logs-search" placeholder="Search messages...">
+                </div>
+                <div class="filter-group">
+                    <label>Level:</label>
+                    <select id="logs-level">
+                        <option value="">All</option>
+                        <option value="INFO">INFO</option>
+                        <option value="WARN">WARN</option>
+                        <option value="ERROR">ERROR</option>
+                        <option value="DEBUG">DEBUG</option>
+                    </select>
+                </div>
+                <button id="load-logs-btn" class="btn-primary">Load Logs</button>
+                <button id="logs-toggle-details-btn" class="btn-secondary">Show Details</button>
+                <div class="logs-delete-bar">
+                    <label>Delete entries older than:</label>
+                    <input type="datetime-local" id="logs-delete-before">
+                    <button id="logs-delete-btn" class="btn-danger btn-small">Delete</button>
+                    <span id="logs-delete-status"></span>
+                </div>
+            </div>
+            <table id="logs-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Level</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody id="logs-table-body"></tbody>
+            </table>
+            <div class="pagination-controls">
+                <button id="logs-prev-btn" class="btn-secondary" disabled>&#8249; Previous</button>
+                <span id="logs-pagination-info"></span>
+                <button id="logs-next-btn" class="btn-secondary" disabled>Next &#8250;</button>
+            </div>
         </section>
     </main>
 
@@ -206,7 +259,8 @@
     <script src="js/api.js"></script>
     <script src="js/directories.js"></script>
     <script src="js/sharepoint.js"></script>
-    <script src="js/sync.js"></script>
+<script src="js/sync.js"></script>
+    <script src="js/logs.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

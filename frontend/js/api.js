@@ -48,5 +48,11 @@ const api = {
     // Sync endpoint
     sync: {
         execute: () => api.request('/sync')
+    },
+
+    // Logs endpoint
+    logs: {
+        getAll: (params) => api.request('/logs?' + new URLSearchParams(params)),
+        deleteBefore: (before) => api.request('/logs?before=' + encodeURIComponent(before), { method: 'DELETE' })
     }
 };

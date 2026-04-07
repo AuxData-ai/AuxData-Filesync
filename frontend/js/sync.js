@@ -36,33 +36,35 @@ const SyncManager = {
             return;
         }
 
-        container.innerHTML = protocols.map(protocol => `
-            <div class="protocol-item">
-                <table>
+        const escape = text => {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(String(text ?? '')));
+            return div.innerHTML;
+        };
+
+        container.innerHTML = `
+            <table>
+                <thead>
                     <tr>
-                        <td><strong>File:</strong></td><td>${protocol.filename || '-'}</td>
+                        <th>Filename</th>
+                        <th>State</th>
+                        <th>Last Uploaded</th>
+                        <th>Message</th>
+                        <th>Directory</th>
                     </tr>
-                    <tr>
-                        <td><strong>Status:</strong></td><td>${protocol.lastState || '-'}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Timestamp:</strong></td><td>${protocol.lastUploaded ? new Date(protocol.lastUploaded).toLocaleString() : '-'}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Agent ID:</strong></td><td>${protocol.agentid || '-'}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Container ID:</strong></td><td>${protocol.containerid || '-'}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Document ID:</strong></td><td>${protocol.documentId || '-'}</td>
-                    </tr>
-                    <tr>
-                        ${protocol.message ? `<td><strong>Error:</strong></td><td>${protocol.message}</td>` : ''}
-                    </tr>
-                </table>
-            </div>
-        `).join('');
+                </thead>
+                <tbody>
+                    ${protocols.map(p => `
+                        <tr>
+                            <td class="protocol-filename">${escape(p.filename)}</td>
+                            <td><span class="protocol-state protocol-state-${escape(p.lastState)}">${escape(p.lastState)}</span></td>
+                            <td class="log-timestamp">${p.lastUploaded ? new Date(p.lastUploaded).toLocaleString() : '—'}</td>
+                            <td>${escape(p.message)}</td>
+                            <td class="protocol-dir">${escape(p.directoryid)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>`;
     },
 
     showStatus(message, type) {

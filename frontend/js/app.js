@@ -27,6 +27,7 @@ const App = {
         DirectoryManager.init();
         SharePointManager.init();
         SyncManager.init();
+        LogsManager.init();
     }
 };
 
