@@ -23,7 +23,7 @@ There are 2 different possibilities to start the app.
 
 ### Execution syncrhonisation
 
-Command: ```filesync.exe```
+Command: ```filesync.exe -exec```
 
 loads the configuration from the file database and executes the sync process
 
