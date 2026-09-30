@@ -33,7 +33,7 @@ Command: ```filesync.exe -service```
 
 starts the rest Backend and opens the browser on port 9180 to edit the configurations.
 
-Here will come more informations in the future.
+You will find further documentation of this tool in the AuxData.ai Mediathek.
 
 ### Database
 
