@@ -9,7 +9,7 @@ The database is empty and can be filled with data.
 - checks for changes in configured directories or sharepoint drives und updates it in the defined agent knowledgedb
 - checks for deleted files locally or in your sharepoint drives and deletes it int the defined agent knowledgedb
 - configuring local directories for synchronisation
-- configuring sharepoint site, drives and folders  for synchronisation
+- configuring sharepoint site, drives and folders for synchronisation
 
 ## Compatibility
 The application was written in go. On this site we offer only a windows executable at the moment. But if you need it for any other os just write a email to support@auxdata.ai
@@ -25,7 +25,7 @@ There are 2 different possibilities to start the app.
 
 Command: ```filesync.exe -exec```
 
-loads the configuration from the file database and executes the sync process
+loads the configuration from the file database and executes the sync process. You will find further documentation of this tool in the AuxData.ai Mediathek.
 
 ### Open the Configuration editor
 
