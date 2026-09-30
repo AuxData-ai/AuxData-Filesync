@@ -33,6 +33,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Name</th>
                         <th>Path</th>
                         <th>Agent ID</th>
                         <th>Container ID</th>
@@ -58,6 +59,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Name</th>
                         <th>Sharepoint Host</th>
                         <th>Site URL</th>
                         <th>Directory</th>
@@ -147,6 +149,10 @@
             <form id="directory-form">
                 <input type="hidden" id="directory-id">
                 <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" id="directory-name" placeholder="z.B. Vertrieb Freigaben">
+                </div>
+                <div class="form-group">
                 <div class="form-group">
                 <div class="form-group">
                     <label><input type="checkbox" id="directory-active"> Active</label>
@@ -162,6 +168,40 @@
                 <div class="form-group">
                     <label><input type="checkbox" id="directory-recursive"> Recursive</label>
                 </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="directory-splitbysubdir"> One container per subfolder (named after the folder)</label>
+                </div>
+                <div class="form-group">
+                    <label>Shared container for files occurring in several subfolders (empty = off):</label>
+                    <input type="text" id="directory-sharedcontainer" placeholder="e.g. Kyocera Allgemein">
+                </div>
+                <div class="form-group">
+                    <label>Shared from this number of subfolders on:</label>
+                    <input type="number" id="directory-sharedthreshold" min="2" value="2">
+                </div>
+                <div class="form-group">
+                    <label>Metadata template (placeholders: <code>${ordner}</code>, <code>${dateiname}</code>, <code>${relpfad}</code>, <code>${produkte}</code>; empty = no metadata):</label>
+                    <input type="text" id="directory-metadatatemplate" placeholder="Produkt: ${ordner} | Dokument: ${dateiname}">
+                </div>
+                <div class="form-group">
+                    <label>Maximum products listed in <code>${produkte}</code> (0 = list all):</label>
+                    <input type="number" id="directory-maxlistedproducts" min="0" value="10">
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btn-context-refresh">Re-apply context to all documents</button>
+                    <span class="detail">Re-labels existing documents with the current metadata template. No file is uploaded again.</span>
+                </div>
+                <div class="form-group">
+                    <label>Move base path to:</label>
+                    <input type="text" id="directory-newpath" placeholder="E:\Kyocera-Doks\produkte">
+                    <button type="button" id="btn-path-preview">Check</button>
+                    <button type="button" id="btn-path-apply" disabled>Move</button>
+                    <span class="detail" id="path-migration-result"></span>
+                </div>
+                <div class="form-group">
+                    <label>Parallel uploads:</label>
+                    <input type="number" id="directory-uploadconcurrency" min="1" max="10" value="4">
+                </div>
                 <h4>Upload Config</h4>
                 <div class="form-group">
                     <label>Platform Url:</label>
@@ -172,7 +212,7 @@
                     <input type="number" id="directory-agentid" required>
                 </div>
                 <div class="form-group">
-                    <label>Container ID:</label>
+                    <label>Container ID: <span id="directory-containerid-hint"></span></label>
                     <input type="number" id="directory-containerid" required>
                 </div>
                 <div class="form-group">
@@ -181,6 +221,15 @@
                 </div>
                 <div class="form-group">
                     <label><input type="checkbox" id="directory-vision"> Computer Vision</label>
+                </div>
+                <h4>File Patterns</h4>
+                <div class="form-group">
+                    <label>Whitelist (one pattern per line; no "/" = filename like <code>*.pdf</code>, with "/" = relative path like <code>archiv/**</code>):</label>
+                    <textarea id="directory-includepatterns" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Blacklist (one pattern per line; blacklist wins over whitelist):</label>
+                    <textarea id="directory-excludepatterns" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn-primary">Save</button>
             </form>
@@ -194,6 +243,10 @@
             <h3 id="sharepoint-modal-title">Add SharePoint Config</h3>
             <form id="sharepoint-form">
                 <input type="hidden" id="sharepoint-id">
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" id="sharepoint-name" placeholder="z.B. Marketing Site">
+                </div>
                 <h4>Sharepoint Config</h4>
                 <div class="form-group">
                     <label>Sharepoint Host</label>
@@ -250,7 +303,16 @@
                 <div class="form-group">
                     <label><input type="checkbox" id="sharepoint-vision"> Computer Vision</label>
                 </div>
-                
+                <h4>File Patterns</h4>
+                <div class="form-group">
+                    <label>Whitelist (one pattern per line; no "/" = filename like <code>*.pdf</code>, with "/" = relative path like <code>archiv/**</code>):</label>
+                    <textarea id="sharepoint-includepatterns" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Blacklist (one pattern per line; blacklist wins over whitelist):</label>
+                    <textarea id="sharepoint-excludepatterns" rows="3"></textarea>
+                </div>
+
                 <button type="submit" id="directory-submit" class="btn-primary">Save</button>
             </form>
         </div>

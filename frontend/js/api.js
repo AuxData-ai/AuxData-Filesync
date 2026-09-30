@@ -27,7 +27,10 @@ const api = {
         getActive: () => api.request('/directories/active'),
         create: (data) => api.request('/directories', { method: 'POST', body: JSON.stringify(data) }),
         update: (id, data) => api.request(`/directories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id) => api.request(`/directories/${id}`, { method: 'DELETE' })
+        delete: (id) => api.request(`/directories/${id}`, { method: 'DELETE' }),
+        triggerContextRefresh: (id) => api.request(`/directories/${id}/context-refresh`, { method: 'POST' }),
+        previewPathMigration: (id, newPath) => api.request(`/directories/${id}/path-migration/preview`, { method: 'POST', body: JSON.stringify({ newPath }) }),
+        applyPathMigration: (id, newPath) => api.request(`/directories/${id}/path-migration`, { method: 'POST', body: JSON.stringify({ newPath }) })
     },
 
     // SharePoint endpoints

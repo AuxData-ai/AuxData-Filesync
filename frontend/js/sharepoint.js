@@ -34,7 +34,7 @@ const SharePointManager = {
 
          if (!configs) {
             const tbody = document.querySelector('#sharepoint-table tbody');
-            tbody.innerHTML = `<tr><td colspan="9">no entries</td></tr>`
+            tbody.innerHTML = `<tr><td colspan="10">no entries</td></tr>`
             return
         }
 
@@ -46,6 +46,7 @@ const SharePointManager = {
             return `
                 <tr>
                     <td>${config.id}</td>
+                    <td>${config.name || config.hostname || '-'}</td>
                     <td>${config.hostname}</td>
                     <td>${config.sitepath || '-'}</td>
                     <td>${config.folderpath || '-'}</td>
@@ -66,6 +67,7 @@ const SharePointManager = {
         this.currentId = data?.id || null;
         document.getElementById('sharepoint-modal-title').textContent = data ? 'Edit SharePoint Config' : 'Add SharePoint Config';
         document.getElementById('sharepoint-id').value = data?.id || '';
+        document.getElementById('sharepoint-name').value = data?.name || '';
         document.getElementById('sharepoint-active').checked = data?.active || false;
         document.getElementById('sharepoint-host').value = data?.hostname || '';
         document.getElementById('sharepoint-site').value = data?.sitepath || '';
@@ -80,7 +82,9 @@ const SharePointManager = {
         document.getElementById('sharepoint-containerid').value = data?.uploadconfig.containerId || '';
         document.getElementById('sharepoint-accesstoken').value = data?.uploadconfig.accessToken || '';
         document.getElementById('sharepoint-vision').checked = data?.uploadconfig.computerVision || false;
-        
+        document.getElementById('sharepoint-includepatterns').value = (data?.includePatterns || []).join('\n');
+        document.getElementById('sharepoint-excludepatterns').value = (data?.excludePatterns || []).join('\n');
+
         this.modal.classList.add('active');
     },
 
@@ -91,6 +95,8 @@ const SharePointManager = {
 
     async handleSubmit(e) {
         e.preventDefault();
+        const splitPatterns = (id) => document.getElementById(id).value
+            .split('\n').map(s => s.trim()).filter(s => s.length > 0);
 
         const credentials = {
             ClientId: document.getElementById('sharepoint-client-id').value,
@@ -108,12 +114,15 @@ const SharePointManager = {
 
         const data = {
             id: parseInt(document.getElementById('sharepoint-id').value) || 0,
+            name: document.getElementById('sharepoint-name').value,
             active: document.getElementById('sharepoint-active').checked,
             hostname: document.getElementById('sharepoint-host').value,
             sitepath: document.getElementById('sharepoint-site').value,
             driveid: document.getElementById('sharepoint-driveid').value,
             folderpath: document.getElementById('sharepoint-folder').value,
             includeSubDirs: document.getElementById('sharepoint-recursive').checked,
+            includePatterns: splitPatterns('sharepoint-includepatterns'),
+            excludePatterns: splitPatterns('sharepoint-excludepatterns'),
             credentials: credentials,
             uploadconfig: uploadconfig,
             
