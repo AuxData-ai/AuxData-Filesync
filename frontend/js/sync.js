@@ -16,6 +16,10 @@ const SyncManager = {
             this.showStatus('Synchronization started and runs in background', 'success');
             setTimeout(() => this.loadProtocols(), 1000);
         } catch (error) {
+            if (error.status === 409) {
+                this.showStatus(error.message, 'info');
+                return;
+            }
             this.showStatus('Synchronization failed: ' + error.message, 'error');
         }
     },

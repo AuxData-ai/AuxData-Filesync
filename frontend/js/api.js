@@ -13,7 +13,14 @@ const api = {
                 ...options
             });
             
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                // Carry the server's explanation (e.g. 409 "Synchronization
+                // is already running") to the caller.
+                const body = await response.json().catch(() => null);
+                const error = new Error(body?.error || `HTTP error! status: ${response.status}`);
+                error.status = response.status;
+                throw error;
+            }
             return await response.json();
         } catch (error) {
             console.error('API Error:', error);
@@ -29,6 +36,7 @@ const api = {
         update: (id, data) => api.request(`/directories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
         delete: (id) => api.request(`/directories/${id}`, { method: 'DELETE' }),
         triggerContextRefresh: (id) => api.request(`/directories/${id}/context-refresh`, { method: 'POST' }),
+        triggerFullUpload: (id) => api.request(`/directories/${id}/full-upload`, { method: 'POST' }),
         previewPathMigration: (id, newPath) => api.request(`/directories/${id}/path-migration/preview`, { method: 'POST', body: JSON.stringify({ newPath }) }),
         applyPathMigration: (id, newPath) => api.request(`/directories/${id}/path-migration`, { method: 'POST', body: JSON.stringify({ newPath }) })
     },
@@ -40,7 +48,8 @@ const api = {
         getById: (id) => api.request(`/sharepoint-configs/${id}`),
         create: (data) => api.request('/sharepoint-configs', { method: 'POST', body: JSON.stringify(data) }),
         update: (id, data) => api.request(`/sharepoint-configs/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id) => api.request(`/sharepoint-configs/${id}`, { method: 'DELETE' })
+        delete: (id) => api.request(`/sharepoint-configs/${id}`, { method: 'DELETE' }),
+        triggerFullUpload: (id) => api.request(`/sharepoint-configs/${id}/full-upload`, { method: 'POST' })
     },
 
     // Protocol endpoints

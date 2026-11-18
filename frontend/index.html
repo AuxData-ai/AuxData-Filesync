@@ -192,6 +192,10 @@
                     <span class="detail">Re-labels existing documents with the current metadata template. No file is uploaded again.</span>
                 </div>
                 <div class="form-group">
+                    <button type="button" id="btn-full-upload">Re-upload all files</button>
+                    <span class="detail">Uploads every file of this configuration again on the next run. Embeddings are recalculated (costs).</span>
+                </div>
+                <div class="form-group">
                     <label>Move base path to:</label>
                     <input type="text" id="directory-newpath" placeholder="E:\Kyocera-Doks\produkte">
                     <button type="button" id="btn-path-preview">Check</button>
@@ -311,6 +315,10 @@
                 <div class="form-group">
                     <label>Blacklist (one pattern per line; blacklist wins over whitelist):</label>
                     <textarea id="sharepoint-excludepatterns" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btn-sharepoint-full-upload">Re-upload all files</button>
+                    <span class="detail">Uploads every file of this configuration again on the next run. Embeddings are recalculated (costs).</span>
                 </div>
 
                 <button type="submit" id="directory-submit" class="btn-primary">Save</button>

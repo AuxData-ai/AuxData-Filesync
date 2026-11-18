@@ -12,6 +12,7 @@ const SharePointManager = {
         document.getElementById('sharepoint-show-active-only').addEventListener('change', (e) => this.loadConfigs(e.target.checked));
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         this.modal.querySelector('.close').addEventListener('click', () => this.closeModal());
+        document.getElementById('btn-sharepoint-full-upload').addEventListener('click', () => this.fullUpload());
         
         this.loadConfigs();
     },
@@ -84,6 +85,8 @@ const SharePointManager = {
         document.getElementById('sharepoint-vision').checked = data?.uploadconfig.computerVision || false;
         document.getElementById('sharepoint-includepatterns').value = (data?.includePatterns || []).join('\n');
         document.getElementById('sharepoint-excludepatterns').value = (data?.excludePatterns || []).join('\n');
+        // Only a saved configuration can be re-uploaded.
+        document.getElementById('btn-sharepoint-full-upload').disabled = !this.currentId;
 
         this.modal.classList.add('active');
     },
@@ -139,6 +142,17 @@ const SharePointManager = {
             this.loadConfigs();
         } catch (error) {
             alert('Failed to save SharePoint config');
+        }
+    },
+
+    async fullUpload() {
+        if (!this.currentId) return;
+        if (!confirm('Upload every file and page of this configuration again on the next run? Embeddings are recalculated (costs).')) return;
+        try {
+            await api.sharepoint.triggerFullUpload(this.currentId);
+            alert('Full upload armed for the next run.');
+        } catch (error) {
+            alert('Failed to arm full upload');
         }
     },
 

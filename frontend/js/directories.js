@@ -14,6 +14,7 @@ const DirectoryManager = {
         document.getElementById('directory-form').addEventListener('submit', (e) => this.handleSubmit(e));
         document.getElementById('directory-splitbysubdir').addEventListener('change', () => this.syncContainerIdRequirement());
         document.getElementById('btn-context-refresh').addEventListener('click', () => this.refreshContext());
+        document.getElementById('btn-full-upload').addEventListener('click', () => this.fullUpload());
         document.getElementById('btn-path-preview').addEventListener('click', () => this.previewPathMigration());
         document.getElementById('btn-path-apply').addEventListener('click', () => this.applyPathMigration());
         // Any edit to the target path invalidates the last "Check" result -
@@ -106,6 +107,7 @@ const DirectoryManager = {
         // - there is nothing to operate on until "Add Directory" has been saved
         // once and reopened for editing.
         document.getElementById('btn-context-refresh').disabled = !this.currentId;
+        document.getElementById('btn-full-upload').disabled = !this.currentId;
         document.getElementById('btn-path-preview').disabled = !this.currentId;
         document.getElementById('directory-newpath').value = '';
         document.getElementById('path-migration-result').textContent = '';
@@ -202,6 +204,17 @@ const DirectoryManager = {
             alert('Context refresh armed for the next run.');
         } catch (error) {
             alert('Failed to arm context refresh');
+        }
+    },
+
+    async fullUpload() {
+        if (!this.currentId) return;
+        if (!confirm('Upload every file of this directory again on the next run? Embeddings are recalculated (costs).')) return;
+        try {
+            await api.directories.triggerFullUpload(this.currentId);
+            alert('Full upload armed for the next run.');
+        } catch (error) {
+            alert('Failed to arm full upload');
         }
     },
 
